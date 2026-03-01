@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sri Chaitanya Schools – Revenue</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #072b4f;
+      }
+
+      .header-wrapper {
+        background: #d9d9d9;
+        margin: 40px;
+        border-radius: 8px;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .title-section {
+        text-align: center;
+      }
+
+      .main-title {
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      .sub-title {
+        margin-top: 8px;
+        font-size: 16px;
+        color: #555;
+      }
+
+      .filter-section {
+        background: #c7d0da;
+        margin: 0 40px 40px;
+        padding: 25px;
+        border-radius: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        border: 2px solid #f2c94c;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      select {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 2px solid #f2c94c;
+      }
+
+      .dashboard-container {
+        margin: 0 40px 40px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px;
+      }
+
+      .cards-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: #f7f9fc;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+        color: #072b4f;
+      }
+
+      .card p {
+        font-size: 22px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header-wrapper">
+      <div class="title-section">
+        <div class="main-title">Sri Chaitanya Schools – Revenue</div>
+        <div class="sub-title">Revenue Department</div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-group">
+        <label>State</label>
+        <select id="stateFilter">
+          <option value="All">All States</option>
+          <option>Andhra Pradesh</option>
+          <option>Telangana</option>
+          <option>Karnataka</option>
+          <option>Tamilnadu</option>
+          <option>West Bengal</option>
+          <option>Assam</option>
+          <option>CHHATTISGARH</option>
+          <option>Gujarat</option>
+          <option>Haryana</option>
+          <option>Jharkhand</option>
+          <option>Madhya Pradesh</option>
+          <option>Maharastra</option>
+          <option>NCR</option>
+          <option>Odisha</option>
+          <option>Punjab</option>
+          <option>Rajasthan</option>
+          <option>Uttar Pradesh</option>
+          <option>Uttarakhand</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Zone</label>
+        <select id="zoneFilter"></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Branch</label>
+        <select id="branchFilter"></select>
+      </div>
+
+      <div class="filter-group">
+        <label>Academic Year</label>
+        <select id="yearFilter">
+          <option value="2026">2026–27</option>
+          <option value="2025">2025–26</option>
+          <option value="2024">2024–25</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="dashboard-container">
+      <div class="cards-wrapper">
+        <div class="card"><h3>Total Students</h3><p id="students">0</p></div>
+        <div class="card"><h3>Total Revenue</h3><p id="revenue">₹ 0</p></div>
+        <div class="card"><h3>Paid Percentage</h3><p id="paid">0%</p></div>
+        <div class="card"><h3>Balance Percentage</h3><p id="balance">0%</p></div>
+        <div class="card"><h3>Zero Paid Students</h3><p id="zero">0</p></div>
+      </div>
+    </div>
+
+    <script>
+      const structure = {
+        "Andhra Pradesh": [
+          "Anantapur",
+          "Nellore",
+          "Kadapa",
+          "Kurnool",
+          "Guntur",
+          "Ongole",
+          "Vijayawada",
+          "Rajahmundry - West",
+          "Rajahmundry - East",
+          "Kakinada",
+          "Visakhapatnam",
+          "Tirupati",
+        ],
+        Telangana: [
+          "Mehdipatnam",
+          "Kompally",
+          "Ameerpet",
+          "Kukatpally",
+          "Dilsuknagar",
+          "Narayanguda",
+          "Hyderabad",
+          "Kodad",
+        ],
+        Karnataka: ["Bengaluru"],
+        Tamilnadu: ["Chennai"],
+        "West Bengal": ["Howrah"],
+        Maharastra: ["Pune", "Mumbai"],
+        Rajasthan: ["Rajasthan"],
+        "Madhya Pradesh": ["Madhya Pradesh"],
+        Assam: ["Assam"],
+        CHHATTISGARH: ["CHHATTISGARH"],
+        Gujarat: ["Gujarat"],
+        Jharkhand: ["Jharkhand"],
+        NCR: ["NCR"],
+        Odisha: ["Odisha"],
+        Punjab: ["Punjab"],
+        Uttarakhand: ["Uttarakhand"],
+        "Uttar Pradesh": ["Uttar Pradesh"],
+      };
+
+      const years = ["2026", "2025", "2024"];
+      const data = [];
+
+      Object.keys(structure).forEach((state) => {
+        structure[state].forEach((zone) => {
+          years.forEach((year) => {
+            data.push({
+              state,
+              zone,
+              branch: zone,
+              year,
+              students: Math.floor(Math.random() * 1000 + 500),
+              revenue: Math.floor(Math.random() * 9000000 + 3000000),
+              paid: Math.floor(Math.random() * 20 + 60),
+              balance: 0,
+              zero: Math.floor(Math.random() * 150 + 50),
+            });
+          });
+        });
+      });
+
+      const stateFilter = document.getElementById("stateFilter");
+      const zoneFilter = document.getElementById("zoneFilter");
+      const branchFilter = document.getElementById("branchFilter");
+      const yearFilter = document.getElementById("yearFilter");
+
+      const students = document.getElementById("students");
+      const revenue = document.getElementById("revenue");
+      const paid = document.getElementById("paid");
+      const balance = document.getElementById("balance");
+      const zero = document.getElementById("zero");
+
+      function loadZones() {
+        const zones = data
+          .filter((d) => stateFilter.value === "All" || d.state === stateFilter.value)
+          .map((d) => d.zone);
+
+        const unique = [...new Set(zones)];
+
+        zoneFilter.innerHTML = "<option value='All'>All Zones</option>";
+        unique.forEach((z) => {
+          zoneFilter.innerHTML += `<option>${z}</option>`;
+        });
+
+        loadBranches();
+      }
+
+      function loadBranches() {
+        const branches = data
+          .filter(
+            (d) =>
+              (stateFilter.value === "All" || d.state === stateFilter.value) &&
+              (zoneFilter.value === "All" || d.zone === zoneFilter.value),
+          )
+          .map((d) => d.branch);
+
+        const unique = [...new Set(branches)];
+
+        branchFilter.innerHTML = "<option value='All'>All Branches</option>";
+        unique.forEach((b) => {
+          branchFilter.innerHTML += `<option>${b}</option>`;
+        });
+      }
+
+      function updateDashboard() {
+        const filtered = data.filter(
+          (d) =>
+            (stateFilter.value === "All" || d.state === stateFilter.value) &&
+            (zoneFilter.value === "All" || d.zone === zoneFilter.value) &&
+            (branchFilter.value === "All" || d.branch === branchFilter.value) &&
+            d.year === yearFilter.value,
+        );
+
+        if (filtered.length === 0) {
+          students.innerText = 0;
+          revenue.innerText = "₹ 0";
+          paid.innerText = "0%";
+          balance.innerText = "0%";
+          zero.innerText = 0;
+          return;
+        }
+
+        const totalStudents = filtered.reduce((a, b) => a + b.students, 0);
+        const totalRevenue = filtered.reduce((a, b) => a + b.revenue, 0);
+        const avgPaid = Math.round(filtered.reduce((a, b) => a + b.paid, 0) / filtered.length);
+        const avgBalance = 100 - avgPaid;
+        const totalZero = filtered.reduce((a, b) => a + b.zero, 0);
+
+        students.innerText = totalStudents.toLocaleString();
+        revenue.innerText = `₹ ${totalRevenue.toLocaleString()}`;
+        paid.innerText = `${avgPaid}%`;
+        balance.innerText = `${avgBalance}%`;
+        zero.innerText = totalZero.toLocaleString();
+      }
+
+      stateFilter.addEventListener("change", () => {
+        loadZones();
+        updateDashboard();
+      });
+      zoneFilter.addEventListener("change", () => {
+        loadBranches();
+        updateDashboard();
+      });
+      branchFilter.addEventListener("change", updateDashboard);
+      yearFilter.addEventListener("change", updateDashboard);
+
+      loadZones();
+      updateDashboard();
+    </script>
+  </body>
+</html>
